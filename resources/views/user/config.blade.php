@@ -12,12 +12,12 @@
                 {{ session('message') }}
             </div>
             @endif
-            
+
             <div class="card">
                 <div class="card-header">Configuracion de mi cuenta</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update') }}" aria-label="Configuracion de mi cuenta">
+                    <form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data" aria-label="Configuracion de mi cuenta">
                         @csrf
 
                         <div class="form-group row">
@@ -27,8 +27,8 @@
                                 @if(Auth::user()->name )
                                 <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ Auth::user()->name }}" required autofocus>
                                 @else
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"  required autofocus>  
-                                @endif        
+                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" required autofocus>
+                                @endif
                                 @if ($errors->has('name'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('name') }}</strong>
@@ -74,6 +74,25 @@
                                 @if ($errors->has('email'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group row">
+
+                               
+                            <label for="image_path" class="col-md-4 col-form-label text-md-right">{{ __('Avatar') }}</label>
+
+                            <div class="col-md-6">
+
+                            @include('includes.avatar')
+                                <input id="image_path" type="file" class="form-control{{ $errors->has('image_path') ? 'is-invalid' : '' }}" name="image_path">
+                                
+                                @if ($errors->has('image_path'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('image_path') }}</strong>
                                 </span>
                                 @endif
                             </div>

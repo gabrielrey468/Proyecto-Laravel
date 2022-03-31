@@ -20,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -52,11 +53,15 @@
                         @else
 
                         <li class="nav-item">
-                            <a href="" class="nav-link">Inicio</a>
+                            <a href="{{ route('home') }}" class="nav-link">Inicio</a>
                         </li>
 
                         <li class="nav-item">
                             <a href="" class="nav-link">Subir imagen</a>
+                        </li>
+
+                        <li>
+                            @include('includes.avatar')
                         </li>
 
                         <li class="nav-item dropdown">
