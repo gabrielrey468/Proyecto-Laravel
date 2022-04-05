@@ -7,11 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            @if(session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-            @endif
+            @include('includes.message')
 
             <div class="card">
                 <div class="card-header">Configuracion de mi cuenta</div>
@@ -88,8 +84,8 @@
                             <div class="col-md-6">
 
                             @include('includes.avatar')
-                                <input id="image_path" type="file" class="form-control{{ $errors->has('image_path') ? 'is-invalid' : '' }}" name="image_path">
-                                
+                                <input id="image_path" type="file" class="form-control" name="image_path" required>
+
                                 @if ($errors->has('image_path'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('image_path') }}</strong>

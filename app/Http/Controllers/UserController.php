@@ -11,10 +11,9 @@ use App\User;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
+   /*  public function __construct(){
         $this->middleware('auth');
-    }
+    } */
 
     public function config()
     {
@@ -69,7 +68,7 @@ class UserController extends Controller
             ->with(['message' => 'Usuario actualizado correctamente']);
     }
 
-    public function getImagen($filename){
+    public function getImage($filename){
         $file = Storage::disk('users')->get($filename);
         return new Response($file, 200);
     }

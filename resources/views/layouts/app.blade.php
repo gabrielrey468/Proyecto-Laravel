@@ -57,7 +57,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="" class="nav-link">Subir imagen</a>
+                            <a href="{{ route('image.create') }}" class="nav-link">Subir imagen</a>
                         </li>
 
                         <li>
