@@ -11,9 +11,10 @@ use App\User;
 
 class UserController extends Controller
 {
-   /*  public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
-    } */
+    }
 
     public function config()
     {
@@ -68,8 +69,18 @@ class UserController extends Controller
             ->with(['message' => 'Usuario actualizado correctamente']);
     }
 
-    public function getImage($filename){
+    public function getImage($filename)
+    {
         $file = Storage::disk('users')->get($filename);
         return new Response($file, 200);
+    }
+
+    public function profile($id)
+    {
+        $user = User::find($id);
+
+        return view('user.profile', [
+            'user' => $user
+        ]);
     }
 }

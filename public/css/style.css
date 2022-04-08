@@ -1,3 +1,7 @@
+body{
+    background-color: black;
+}
+
 .avatar{
     width: 55px;
     margin-bottom: 15px;
@@ -18,12 +22,15 @@
 }
 
 .pub_image{
-    margin-bottom: 25px;
+    margin-bottom: 27px;
+    border-radius: 10px;
+    
 }
 
 .pub_image .container-avatar{
     float: left;
     margin-right: 15px;
+
 }
 
 .pub_image .data-user{
@@ -31,12 +38,12 @@
     line-height: 35px;
 }
 
-.pub_image .data-user a{
+/* .pub_image .data-user a{
     color: blue;
     background-color: aqua;
     border-radius: 10px;
     border: greenyellow solid 4px;
-}
+} */
 
 .pub_image .nickname{
     color: gray;
@@ -50,6 +57,7 @@
 
 .image-detail{
     max-height: 500px;
+    object-fit: cover;
 }
 
 .image-container img{
@@ -83,4 +91,31 @@
 
 .pub_image .comments{
     padding: 20px;
+}
+
+.number_likes{
+    color: black;
+    font-size: 12px;
+}
+
+.profile-user .container-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 500px;
+    overflow: hidden;
+    float: left;
+}
+
+.profile-user .container-avatar img{
+    height: 100%;
+}
+
+.profile-user{
+    margin-bottom: 40px;
+}
+
+.profile-user .user-info{
+    float: left;
+    padding-left: 6px;
+    padding-top: 6px;
 }

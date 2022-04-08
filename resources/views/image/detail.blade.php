@@ -38,8 +38,22 @@
 
                 <div class="likes">
 
-                    <img src="{{ asset('img/facebook-like.png') }}">
-                    <img src="{{ asset('img/instagram.png') }}">
+
+                    <!-- Comprobar si el usuario le dio like a la imagen -->
+                    <?php $user_like = false; ?>
+                    @foreach($image->likes as $like)
+                        @if($like->user->id == Auth::user()->id)
+                            <?php $user_like = true; ?>
+                        @endif
+                    @endforeach
+
+                    @if($user_like)
+                        <img src="{{ asset('img/facebook-like-3.png') }}" data-id="{{ $image->id }}" class="btn-dislike">
+                    @else
+                        <img src="{{ asset('img/facebook-like.png') }}" data-id="{{ $image->id }}" class="btn-like">
+                    @endif
+
+                    <span class="number_likes">{{ count($image->likes) }}</span>
 
                 </div>
                 <div class="clearfix"></div>

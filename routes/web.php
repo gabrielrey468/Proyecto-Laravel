@@ -50,6 +50,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 // USUARIO
 Route::get('/configuracion', 'UserController@config')->name('config');
+//Route::get('/gente/{search?}', 'UserController@index')->name('user.index');
 Route::post('/user/update', 'UserController@update')->name('user.update');
 Route::get('/user/avatar/{filename}', 'UserController@getImage')->name('user.avatar');
 Route::get('/subir-imagen', 'ImageController@create')->name('image.create');
@@ -58,3 +59,7 @@ Route::get('/image/file/{filename}', 'ImageController@getImage')->name('image.fi
 Route::get('/imagen/{id}', 'ImageController@detail')->name('image.detail');
 Route::post('/comment/save', 'CommentController@save')->name('comment.save');
 Route::get('/comment/delete/{id}', 'CommentController@delete')->name('comment.delete');
+Route::get('/like/{image_id}', 'LikeController@like')->name('like.save');
+Route::get('/dislike/{image_id}', 'LikeController@dislike')->name('like.delete');
+Route::get('/likes', 'LikeController@index')->name('likes');
+Route::get('/perfil/{id}', 'UserController@profile')->name('profile');
