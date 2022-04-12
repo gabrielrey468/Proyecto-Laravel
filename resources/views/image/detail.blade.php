@@ -3,112 +3,142 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            @include('includes.message')
+        <div class="col-md-10">
+			@include('includes.message')
 
-            <div class="card pub_image pub_image_detail">
-                <div class="card-header">
+			<div class="card pub_image pub_image_detail">
+				<div class="card-header">
 
-                    @if($image->user->image)
-                    <div class="container-avatar">
-                        <img src="{{ route('user.avatar', ['filename' => $image->user->image ]) }}" class="avatar">
-                    </div>
-                    @endif
+					@if($image->user->image)
+					<div class="container-avatar">
+						<img src="{{ route('user.avatar',['filename'=>$image->user->image]) }}" class="avatar" />
+					</div>
+					@endif
 
-                    <div class="data-user">
-                        {{ $image->user->name.' '.$image->user->surname }}
-                        <span class="nickname">
-                            {{ ' | @ '.$image->user->nick }}
-                        </span>
-                    </div>
-                </div>
+					<div class="data-user">
+						{{$image->user->name.' '.$image->user->surname}}
+						<span class="nickname">
+							{{' | @'.$image->user->nick}}
+						</span>
+					</div>
+				</div>
 
-                <div class="card-body">
-                    <div class="image-container image-detail">
-                        <img src="{{ route('image.file',['filename' => $image->image_path]) }}">
-                    </div>
-                </div>
+				<div class="card-body">
+					<div class="image-container image-detail">
+						<img src="{{ route('image.file',['filename' => $image->image_path]) }}" />
+					</div>
 
+					<div class="description">
+						<span class="nickname">{{'@'.$image->user->nick}} </span>
+						<span class="nickname date">{{' | '.\FormatTime::LongTimeFilter($image->created_at)}}</span>
+						<p>{{$image->description}}</p>
+					</div>
 
-                <div class="description">
-                    <span class="nickname">{{ '@' .$image->user->nick }}</span>
-                    <span class="nickname date">{{ '|' .FormatTime::LongTimeFilter($image->created_at) }}</span>
-                    <p>{{ $image->description }}</p>
-                </div>
+					<div class="likes">
 
-                <div class="likes">
+						<!-- Comprobar si el usuario le dio like a la imagen -->
+						<?php $user_like = false; ?>
+						@foreach($image->likes as $like)
+						@if($like->user->id == Auth::user()->id)
+						<?php $user_like = true; ?>
+						@endif
+						@endforeach
 
+						@if($user_like)
+						<img src="{{asset('img/facebook-like.png')}}" data-id="{{$image->id}}" class="btn-like"/>
+						@else
+						<img src="{{asset('img/facebook-like-3.png')}}" data-id="{{$image->id}}" class="btn-dislike"/>
+						@endif
 
-                    <!-- Comprobar si el usuario le dio like a la imagen -->
-                    <?php $user_like = false; ?>
-                    @foreach($image->likes as $like)
-                        @if($like->user->id == Auth::user()->id)
-                            <?php $user_like = true; ?>
-                        @endif
-                    @endforeach
+						<span class="number_likes">{{count($image->likes)}}</span>
+					</div>
 
-                    @if($user_like)
-                        <img src="{{ asset('img/facebook-like-3.png') }}" data-id="{{ $image->id }}" class="btn-dislike">
-                    @else
-                        <img src="{{ asset('img/facebook-like.png') }}" data-id="{{ $image->id }}" class="btn-like">
-                    @endif
+					@if(Auth::user() && Auth::user()->id == $image->user->id)
+					<div class="actions">
+						<a href="{{ route('image.edit', ['id' => $image->id]) }}" class="btn btn-sm btn-primary">Actualizar</a>
+						<!--<a href="{{ route('image.delete', ['id' => $image->id]) }}" class="btn btn-sm btn-danger">Borrar</a>-->
 
-                    <span class="number_likes">{{ count($image->likes) }}</span>
+						<!-- Button to Open the Modal -->
+						<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+							Eliminar
+						</button>
 
-                </div>
-                <div class="clearfix"></div>
+						<!-- The Modal -->
+						<div class="modal" id="myModal">
+							<div class="modal-dialog">
+								<div class="modal-content">
 
-                <div class="comments">
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h4 class="modal-title">¿Estas seguro?</h4>
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+									</div>
 
-                    <h2>Comentarios ({{ count($image->comments) }})</h2>
-                    <hr>
+									<!-- Modal body -->
+									<div class="modal-body">
+										Si eliminar esta imagen nunca podrás recuperarla, ¿estas seguro de querer borrarla?
+									</div>
 
-                    <form method="POST" action="{{ route('comment.save') }}">
-                        @csrf
+									<!-- Modal footer -->
+									<div class="modal-footer">
+										<button type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+										<a href="{{ route('image.delete', ['id' => $image->id]) }}" class="btn btn-danger">Borrar definitivamente</a>
+									</div>
 
-                        <input type="hidden" name="image_id" value="{{ $image->id }}">
+								</div>
+							</div>
+						</div>
+					</div>
+					@endif
 
-                        <p>
-                            <textarea class="form-control {{ $errors->has('content') ? ' is-invalid' : '' }}" name="content"></textarea>
-                            @if ($errors->has('content'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('content') }}</strong>
-                            </span>
-                            @endif
-                        </p>
+					<div class="clearfix"></div>
+					<div class="comments">
 
-                        <button type="submit" class="btn btn-success">
-                            Enviar
-                        </button>
-                    </form>
+						<h2>Comentarios ({{count($image->comments)}})</h2>
+						<hr>
 
-                    <hr>
+						<form method="POST" action="{{ route('comment.save') }}">
+							@csrf
 
-                    @foreach($image->comments as $comment)
-                    <div class="comment">
+							<input type="hidden" name="image_id" value="{{$image->id}}" />
+							<p>
+								<textarea class="form-control {{ $errors->has('content') ? 'is-invalid' : '' }}" name="content"></textarea>
+								@if($errors->has('content'))
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $errors->first('content') }}</strong>
+								</span>
+								@endif
+							</p>
+							<button type="submit" class="btn btn-success">
+								Enviar
+							</button>
+						</form>
 
-                        <span class="nickname">{{ '@' .$comment->user->nick }}</span>
-                        <span class="nickname date">{{ '|' .FormatTime::LongTimeFilter($comment->created_at) }}</span>
-                        <p>{{ $comment->content }} <br>
+						<hr>
 
-                            @if(Auth::check() && ($comment->user_id == Auth::user()->id || $comment->image->user_id == Auth::user()->id))
-                            <a href="{{ route('comment.delete', ['id' => $comment->id]) }}" class="btn btn-sm btn-danger">
-                                Eliminar
-                            </a>
-                            @endif
-                        </p>
+						@foreach($image->comments as $comment)
+						<div class="comment">
 
-                    </div>
-                    @endforeach
+							<span class="nickname">{{'@'.$comment->user->nick}} </span>
+							<span class="nickname date">{{' | '.\FormatTime::LongTimeFilter($comment->created_at)}}</span>
+							<p>{{$comment->content}}<br/>
 
+								@if(Auth::check() && ($comment->user_id == Auth::user()->id || $comment->image->user_id == Auth::user()->id))
+								<a href="{{ route('comment.delete', ['id' => $comment->id]) }}" class="btn btn-sm btn-danger">
+									Eliminar
+								</a>
+								@endif
+							</p>
+						</div>
+						@endforeach
 
-                </div>
-
-            </div>
+					</div>
+				</div>
+			</div>
 
 
         </div>
+
     </div>
 </div>
-
 @endsection

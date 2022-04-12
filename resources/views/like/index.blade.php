@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <h1>Mis imagenes favoritas</h1>
+            <h1><b>Mis imagenes favoritas</b></h1>
             <hr>
 
             @foreach($likes as $like)

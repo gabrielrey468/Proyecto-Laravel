@@ -1,5 +1,5 @@
 body{
-    background-color: black;
+    background-color: ghostwhite;
 }
 
 .avatar{
@@ -118,4 +118,9 @@ body{
     float: left;
     padding-left: 6px;
     padding-top: 6px;
+}
+
+.btn-search{
+    margin-left: 0px;
+    padding-left: 0px;
 }

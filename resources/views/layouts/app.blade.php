@@ -29,7 +29,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    RayoUltraZ
+                    <b>RayoUltraZ</b>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -55,6 +55,10 @@
 
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">Inicio</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('user.index') }}" class="nav-link">Gente</a>
                         </li>
 
                         <li class="nav-item">
